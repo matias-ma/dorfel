@@ -5,8 +5,34 @@ import numpy as np
 import os
 import time
 
-with open('foo.txt') as f:
-    text = f.read()
+dload = input('\n\nDo you want to download the models and text? (y/n) \n')
+if dload == 'y': 
+    print('Download files at https://github.com/matma14/text_rnn/tree/main/models_txt')
+    
+author = input('\nChoose author (List to list): \n')
+author_list = ['Murakami', 'Nabokov', 'Calvino']
+
+if author == 'List':
+    print('\n\n')
+    for i in range(len(author_list)):
+        print(author_list[i])
+    author = input('\nChoose author: \n')
+
+start_word = input('\nGive it a word or two to start with \n')
+
+char_count = input('\nHow many characters? \n')
+
+if author == author_list[0]:
+    with open('/Users/student/Downloads/many_murakami.txt') as f:
+        text = f.read()
+
+if author == author_list[1]:
+    with open('/Users/student/Downloads/many_nabokov.txt') as f:
+        text = f.read()
+
+if author == author_list[2]:
+    with open('/Users/student/Downloads/many_calvino.txt') as f:
+        text = f.read()
 
 vocab = sorted(set(text))
 example_texts = ['abcdefg', 'xyz']
@@ -32,6 +58,8 @@ seq_length = 100
 
 sequences = ids_dataset.batch(seq_length+1, drop_remainder=True)
 
+BATCH_SIZE = 2048
+BUFFER_SIZE = 10000
 
 def split_input_target(sequence):
     input_text = sequence[:-1]
@@ -39,18 +67,7 @@ def split_input_target(sequence):
     return input_text, target_text
 
 dataset = sequences.map(split_input_target)
-for input_example, target_example in dataset.take(1):
-    print("Input :", text_from_ids(input_example).numpy())
-    print("Target:", text_from_ids(target_example).numpy())
 
-# Batch size
-BATCH_SIZE = 2048
-
-# Buffer size to shuffle the dataset
-# (TF data is designed to work with possibly infinite sequences,
-# so it doesn't attempt to shuffle the entire sequence in memory. Instead,
-# it maintains a buffer in which it shuffles elements).
-BUFFER_SIZE = 10000
 
 dataset = (
     dataset
@@ -96,32 +113,7 @@ model = MyModel(
 
 for input_example_batch, target_example_batch in dataset.take(1):
     example_batch_predictions = model(input_example_batch)
-    print(example_batch_predictions.shape, "# (batch_size, sequence_length, vocab_size)")
 
-model.summary()
-
-sampled_indices = tf.random.categorical(example_batch_predictions[0], num_samples=1)
-sampled_indices = tf.squeeze(sampled_indices, axis=-1).numpy()
-
-loss = tf.losses.SparseCategoricalCrossentropy(from_logits=True)
-
-example_batch_mean_loss = loss(target_example_batch, example_batch_predictions)
-print("Prediction shape: ", example_batch_predictions.shape, " # (batch_size, sequence_length, vocab_size)")
-print("Mean loss:        ", example_batch_mean_loss)
-
-model.compile(optimizer='adam', loss=loss)
-
-# Directory where the checkpoints will be saved
-checkpoint_dir = './training/ckpt_{epoch:04d}.ckpt'
-# Name of the checkpoint files
-checkpoint_prefix = os.path.join(checkpoint_dir, "ckpt_{epoch}")
-
-checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
-    filepath=checkpoint_prefix,
-    save_weights_only=True)
-
-EPOCHS = 130
-history = model.fit(dataset, epochs=EPOCHS, callbacks=[checkpoint_callback])
 
 class OneStep(tf.keras.Model):
   def __init__(self, model, chars_from_ids, ids_from_chars, temperature=1.0):
@@ -169,24 +161,23 @@ class OneStep(tf.keras.Model):
 
 one_step_model = OneStep(model, chars_from_ids, ids_from_chars)
 
-start = time.time()
+if author == author_list[0]:
+    model.load_weights('/Users/student/Desktop/tf_models/many_murakami.h5')
+
+if author == author_list[1]:
+    model.load_weights('/Users/student/Desktop/tf_models/many_nabokov.h5')
+
+if author == author_list[2]:
+    model.load_weights('/Users/student/Desktop/tf_models/many_calvino.h5')
+
 states = None
-next_char = tf.constant(['Run'])
+next_char = tf.constant([start_word])
 result = [next_char]
 
-for n in range(1000):
+for n in range(int(char_count)):
   next_char, states = one_step_model.generate_one_step(next_char, states=states)
   result.append(next_char)
 
 result = tf.strings.join(result)
-end = time.time()
-print(result[0].numpy().decode('utf-8'), '\n\n' + '_'*80)
-print('\nRun time:', end - start)
-tf.saved_model.save(one_step_model, 'one_step')
-one_step_reloaded = tf.saved_model.load('one_step')
 
-
-
-
-
-
+print('\n\n'+result[0].numpy().decode('utf-8'), '\n\n' + '_'*80)
