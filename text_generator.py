@@ -5,7 +5,11 @@ import numpy as np
 import os
 import time
 
-author = input('\n\n Choose author (answer List to list): \n')
+dload = input('\n\n Do you want to download the models and text? (y/n) \n')
+if dload == y: 
+    print('Download files at: https://github.com/matma14/text_rnn/tree/main/models_txt')
+    
+author = input('\n Choose author (answer List to list): \n')
 author_list = ['Murakami', 'Nabokov']
 
 if author == 'List':
