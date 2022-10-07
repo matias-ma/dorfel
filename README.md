@@ -1,3 +1,3 @@
 # text_rnn
 
-Download files in /models_and_txt
+Download files in /tf_models
