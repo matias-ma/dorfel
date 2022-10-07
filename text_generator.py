@@ -5,21 +5,22 @@ import numpy as np
 import os
 import time
 
-dload = input('\n\n Do you want to download the models and text? (y/n) \n')
-if dload == y: 
-    print('Download files at: https://github.com/matma14/text_rnn/tree/main/models_txt')
+dload = input('\n\nDo you want to download the models and text? (y/n) \n')
+if dload == 'y': 
+    print('Download files at https://github.com/matma14/text_rnn/tree/main/models_txt')
     
-author = input('\n Choose author (answer List to list): \n')
+author = input('\nChoose author (List to list): \n')
 author_list = ['Murakami', 'Nabokov']
 
 if author == 'List':
+    print('\n\n')
     for i in range(len(author_list)):
         print(author_list[i])
-    author = input('\n Choose author: \n')
+    author = input('\nChoose author: \n')
 
-start_word = input('\n Give it a word or two to start with \n')
+start_word = input('\nGive it a word or two to start with \n')
 
-char_count = input('\n How many characters? \n')
+char_count = input('\nHow many characters? \n')
 
 if author == author_list[0]:
     with open('/Users/student/Downloads/many_murakami.txt') as f:
@@ -173,4 +174,3 @@ for n in range(int(char_count)):
 result = tf.strings.join(result)
 
 print('\n\n'+result[0].numpy().decode('utf-8'), '\n\n' + '_'*80)
-
