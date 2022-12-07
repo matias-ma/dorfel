@@ -1,16 +1,19 @@
-# python3
+#!/usr/local/bin/python3.9
+
+import os
+
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1' 
 
 import tensorflow as tf
 import numpy as np
-import os
 import time
 
 dload = input('\n\nDo you want to download the models and text? (y/n) \n')
 if dload == 'y': 
     print('Download files at https://github.com/matma14/text_rnn/tree/main/models_txt')
-    
+
 author = input('\nChoose author (List to list): \n')
-author_list = ['Murakami', 'Nabokov']
+author_list = ['Murakami', 'Nabokov', 'Calvino', 'Hemingway']
 
 if author == 'List':
     print('\n\n')
@@ -22,12 +25,22 @@ start_word = input('\nGive it a word or two to start with \n')
 
 char_count = input('\nHow many characters? \n')
 
+print('\n\n██╗    ██╗██████╗ ██╗████████╗██╗███╗   ██╗ ██████╗                      \n██║    ██║██╔══██╗██║╚══██╔══╝██║████╗  ██║██╔════╝                      \n██║ █╗ ██║██████╔╝██║   ██║   ██║██╔██╗ ██║██║  ███╗                     \n██║███╗██║██╔══██╗██║   ██║   ██║██║╚██╗██║██║   ██║                     \n╚███╔███╔╝██║  ██║██║   ██║   ██║██║ ╚████║╚██████╔╝    ██╗    ██╗    ██╗ \n ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝   ╚═╝   ╚═╝╚═╝  ╚═══╝ ╚═════╝     ╚═╝    ╚═╝    ╚═╝\n\n')
+
 if author == author_list[0]:
     with open('/Users/student/Downloads/many_murakami.txt') as f:
         text = f.read()
 
-if author == author_list[1]:
+elif author == author_list[1]:
     with open('/Users/student/Downloads/many_nabokov.txt') as f:
+        text = f.read()
+
+elif author == author_list[2]:
+    with open('/Users/student/Downloads/many_calvino.txt') as f:
+        text = f.read()
+
+elif author == author_list[3]:
+    with open('/Users/student/Downloads/many_hemingway.txt') as f:
         text = f.read()
 
 vocab = sorted(set(text))
@@ -160,8 +173,14 @@ one_step_model = OneStep(model, chars_from_ids, ids_from_chars)
 if author == author_list[0]:
     model.load_weights('/Users/student/Desktop/tf_models/many_murakami.h5')
 
-if author == author_list[1]:
+elif author == author_list[1]:
     model.load_weights('/Users/student/Desktop/tf_models/many_nabokov.h5')
+
+elif author == author_list[2]:
+    model.load_weights('/Users/student/Desktop/tf_models/many_calvino.h5')
+
+elif author == author_list[3]:
+    model.load_weights('/Users/student/Desktop/tf_models/many_hemingway.h5')
 
 states = None
 next_char = tf.constant([start_word])
