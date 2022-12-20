@@ -28,19 +28,19 @@ char_count = input('\nHow many characters? \n')
 print('\n\n██╗    ██╗██████╗ ██╗████████╗██╗███╗   ██╗ ██████╗                      \n██║    ██║██╔══██╗██║╚══██╔══╝██║████╗  ██║██╔════╝                      \n██║ █╗ ██║██████╔╝██║   ██║   ██║██╔██╗ ██║██║  ███╗                     \n██║███╗██║██╔══██╗██║   ██║   ██║██║╚██╗██║██║   ██║                     \n╚███╔███╔╝██║  ██║██║   ██║   ██║██║ ╚████║╚██████╔╝    ██╗    ██╗    ██╗ \n ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝   ╚═╝   ╚═╝╚═╝  ╚═══╝ ╚═════╝     ╚═╝    ╚═╝    ╚═╝\n\n')
 
 if author == author_list[0]:
-    with open('/Users/student/Downloads/many_murakami.txt') as f:
+    with open('/path/to/file/many_murakami.txt') as f:
         text = f.read()
 
 elif author == author_list[1]:
-    with open('/Users/student/Downloads/many_nabokov.txt') as f:
+    with open('/path/to/file/many_nabokov.txt') as f:
         text = f.read()
 
 elif author == author_list[2]:
-    with open('/Users/student/Downloads/many_calvino.txt') as f:
+    with open('/path/to/file/many_calvino.txt') as f:
         text = f.read()
 
 elif author == author_list[3]:
-    with open('/Users/student/Downloads/many_hemingway.txt') as f:
+    with open('/path/to/file/many_hemingway.txt') as f:
         text = f.read()
 
 vocab = sorted(set(text))
@@ -171,16 +171,16 @@ class OneStep(tf.keras.Model):
 one_step_model = OneStep(model, chars_from_ids, ids_from_chars)
 
 if author == author_list[0]:
-    model.load_weights('/Users/student/Desktop/tf_models/many_murakami.h5')
+    model.load_weights('/path/to/file/many_murakami.h5')
 
 elif author == author_list[1]:
-    model.load_weights('/Users/student/Desktop/tf_models/many_nabokov.h5')
+    model.load_weights('/path/to/file/many_nabokov.h5')
 
 elif author == author_list[2]:
-    model.load_weights('/Users/student/Desktop/tf_models/many_calvino.h5')
+    model.load_weights('/path/to/file/many_calvino.h5')
 
 elif author == author_list[3]:
-    model.load_weights('/Users/student/Desktop/tf_models/many_hemingway.h5')
+    model.load_weights('/path/to/file/many_hemingway.h5')
 
 states = None
 next_char = tf.constant([start_word])
