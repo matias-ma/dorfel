@@ -12,10 +12,10 @@ import tensorflow as tf
 import numpy as np
 
 # Enter your Twitter API credentials
-consumer_key = "2f4BZdqeSZ4RMh6sjOxOVwn5O"
-consumer_secret = "sppCMBwhaelEOiE4v3GXeIdHHzoNsgg9RAhDddZ9YtUe1Gq9Fc"
-access_token = "1475748533064151041-8l5piBAY7DlRFl6RKHyLACMB9UiXph"
-access_token_secret = "PdmPOF5RapPxvd8lOOqIBlOGiKbxSV1OmQw9UQxXaAAlY"
+consumer_key = "API_KEY"
+consumer_secret = "API_SECRET_KEY"
+access_token = "ACCESS_TOKEN"
+access_token_secret = "ACCESS_SECRET_TOKEN"
 
 author_list = ['Murakami', 'Nabokov', 'Calvino', 'Hemingway', 'Many']
 i=0
